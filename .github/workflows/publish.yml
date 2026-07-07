@@ -1,4 +1,4 @@
-# Standalone repo workflow (mirrored from ignite-2/public-spi/typescript).
+# Standalone repo workflow (mirrored from ignite-2/public-api/typescript).
 # Publishes @elizonapp/api-client to GitHub Packages on push to main.
 name: Publish
 
@@ -23,8 +23,6 @@ jobs:
           node-version: "20"
           registry-url: https://npm.pkg.github.com
           scope: "@elizonapp"
-          cache: npm
-          cache-dependency-path: package-lock.json
 
       - name: Install
         run: |
