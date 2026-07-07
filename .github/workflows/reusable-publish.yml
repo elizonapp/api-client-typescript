@@ -1,0 +1,38 @@
+name: Reusable — publish GitHub Package
+
+on:
+  workflow_call:
+    inputs:
+      project-dir:
+        type: string
+        default: .
+
+jobs:
+  publish:
+    name: Publish GitHub Package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    defaults:
+      run:
+        working-directory: ${{ inputs.project-dir }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: https://npm.pkg.github.com
+          scope: "@elizonapp"
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ignite-api-dist
+          path: dist
+
+      - name: Publish to GitHub Packages
+        run: npm publish --access public --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

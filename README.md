@@ -117,6 +117,17 @@ npm run build
 
 Output is written to `dist/`.
 
+## CI & releases
+
+Standalone mirror: [`elizonapp/api-client-typescript`](https://github.com/elizonapp/api-client-typescript).
+
+On every push to `main`, the **Build** workflow:
+
+- Publishes `@elizonapp/api-client` to GitHub Packages
+- Creates a GitHub Release titled `ignite-api {version} ({sha})` with:
+  - `ignite-api-{version}.tgz` — npm package tarball
+  - `ignite-api-{version}-dist.zip` — compiled `dist/` plus metadata
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).
