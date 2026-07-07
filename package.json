@@ -1,0 +1,45 @@
+{
+  "name": "@elizonapp/api-client",
+  "version": "0.1.0",
+  "description": "Official TypeScript client for the elizon public API",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "elizon",
+    "api",
+    "client",
+    "typescript",
+    "hosting"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elizonapp/api-client-typescript.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}
