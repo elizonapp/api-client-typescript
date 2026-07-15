@@ -32,6 +32,15 @@ jobs:
           name: ignite-api-dist
           path: dist
 
+      # GitHub Packages rejects republishing the same version (E409).
+      # Append the workflow run id so each sync publishes a unique prerelease.
+      - name: Set unique publish version
+        run: |
+          BASE=$(node -p "require('./package.json').version.split('-')[0]")
+          VERSION="${BASE}-${{ github.run_id }}"
+          npm pkg set "version=${VERSION}"
+          echo "Publishing @elizonapp/api-client@${VERSION}"
+
       - name: Publish to GitHub Packages
         run: npm publish --access public --ignore-scripts
         env:
