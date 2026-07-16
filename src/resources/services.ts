@@ -50,4 +50,24 @@ export class ServicesResource extends ResourceClient {
   statusBatch(ids: string[]) {
     return this.post<StatusBatchResponse>("/api/services/status-batch", { ids });
   }
+
+  /**
+   * Fetch Ploi site storage history snapshots.
+   */
+  storageHistory(id: string, hours = 72) {
+    return this.get<{ serviceId: string; points: Array<{ at: string; bytes: string; gb: number }> }>(
+      `/api/services/${encodeURIComponent(id)}/ploi/storage-history`,
+      { hours }
+    );
+  }
+
+  /**
+   * Get or apply Ploi DNS blueprint for a site.
+   */
+  ploiDns(id: string, body?: Record<string, unknown>) {
+    const path = `/api/services/${encodeURIComponent(id)}/ploi/dns`;
+    return body
+      ? this.post<Record<string, unknown>>(path, body)
+      : this.get<Record<string, unknown>>(path);
+  }
 }
