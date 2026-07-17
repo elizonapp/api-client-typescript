@@ -1833,6 +1833,7 @@ export const ApiErrorCodes = {
   autopayOperationFailed: "autopayOperationFailed",
   ipFlowMetricsInvalidIpv4: "ipFlowMetricsInvalidIpv4",
   ipFlowMetricsInvalidOctet: "ipFlowMetricsInvalidOctet",
+  contractDowngradeNotAllowed: "contractDowngradeNotAllowed",
 } as const;
 
 export type ApiErrorCode = (typeof ApiErrorCodes)[keyof typeof ApiErrorCodes];
