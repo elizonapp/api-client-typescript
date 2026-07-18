@@ -52,7 +52,7 @@ export class ServicesResource extends ResourceClient {
   }
 
   /**
-   * Fetch Ploi site storage history snapshots.
+   * Fetch storage usage history for a website hosting service.
    */
   storageHistory(id: string, hours = 72) {
     return this.get<{ serviceId: string; points: Array<{ at: string; bytes: string; gb: number }> }>(
@@ -62,12 +62,68 @@ export class ServicesResource extends ResourceClient {
   }
 
   /**
-   * Get or apply Ploi DNS blueprint for a site.
+   * Get or apply the DNS blueprint for a website hosting service.
    */
-  ploiDns(id: string, body?: Record<string, unknown>) {
+  siteDns(id: string, body?: Record<string, unknown>) {
     const path = `/api/services/${encodeURIComponent(id)}/ploi/dns`;
     return body
       ? this.post<Record<string, unknown>>(path, body)
       : this.get<Record<string, unknown>>(path);
+  }
+
+  /** @deprecated Use {@link siteDns} */
+  ploiDns(id: string, body?: Record<string, unknown>) {
+    return this.siteDns(id, body);
+  }
+
+  /**
+   * Get panel credentials for a shared hosting service.
+   */
+  hostingCredentials(id: string) {
+    return this.get<{
+      panelUrl: string | null;
+      login: string | null;
+      email: string | null;
+      hasPassword: boolean;
+      password: string | null;
+    }>(`/api/services/${encodeURIComponent(id)}/plesk/credentials`);
+  }
+
+  /**
+   * Rotate the panel password for a shared hosting service.
+   */
+  rotateHostingCredentials(id: string) {
+    return this.post<{
+      ok: boolean;
+      password: string;
+      panelUrl?: string;
+      login?: string;
+      email?: string;
+    }>(`/api/services/${encodeURIComponent(id)}/plesk/credentials`, {});
+  }
+
+  /**
+   * List domains linked to a shared hosting service.
+   */
+  hostingDomains(id: string) {
+    return this.get<{
+      domains: unknown;
+      lastDomainSyncAt?: string;
+      lastManualRefreshAt?: string;
+      maxDomains?: number;
+      storagePerDomainGb?: number;
+      maxMailboxesPerDomain?: number;
+      dnsManagement?: number;
+    }>(`/api/services/${encodeURIComponent(id)}/plesk/domains`);
+  }
+
+  /**
+   * Refresh the domain list for a shared hosting service.
+   */
+  refreshHostingDomains(id: string) {
+    return this.post<{ ok: boolean; domains: unknown }>(
+      `/api/services/${encodeURIComponent(id)}/plesk/domains`,
+      {},
+    );
   }
 }
