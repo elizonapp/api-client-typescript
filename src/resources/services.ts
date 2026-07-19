@@ -78,15 +78,18 @@ export class ServicesResource extends ResourceClient {
 
   /**
    * Get panel credentials for a shared hosting service.
+   * Password is only included when `reveal` is true (requires settings permission).
    */
-  hostingCredentials(id: string) {
+  hostingCredentials(id: string, opts?: { reveal?: boolean }) {
     return this.get<{
       panelUrl: string | null;
       login: string | null;
       email: string | null;
       hasPassword: boolean;
       password: string | null;
-    }>(`/api/services/${encodeURIComponent(id)}/plesk/credentials`);
+    }>(`/api/services/${encodeURIComponent(id)}/plesk/credentials`, {
+      reveal: opts?.reveal ? "1" : undefined,
+    });
   }
 
   /**
